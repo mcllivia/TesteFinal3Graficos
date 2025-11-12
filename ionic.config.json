@@ -1,0 +1,7 @@
+{
+  "name": "TesteFinal3Graficos",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
