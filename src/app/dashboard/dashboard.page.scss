@@ -1,0 +1,202 @@
+/* Correção do alinhamento do ion-datetime + tema Azul/Roxo/Preto mantido */
+ion-content {
+    --background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
+    font-family: 'Inter', 'Roboto', sans-serif;
+    color: #e2e8f0;
+}
+
+/* Cabeçalho */
+ion-header ion-toolbar {
+    --background: #1e293b;
+    --color: #c7d2fe;
+    border-bottom: 3px solid #6366f1;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+ion-title {
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Cartão de filtro */
+ion-card {
+    margin: 18px;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #1e293b, #312e81);
+    box-shadow: 
+      0 8px 25px rgba(99, 102, 241, 0.25),
+      0 0 20px rgba(139, 92, 246, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    transition: all 0.3s ease;
+}
+
+ion-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 
+      0 16px 35px rgba(99, 102, 241, 0.35),
+      0 0 30px rgba(139, 92, 246, 0.25);
+}
+
+ion-card-header {
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    padding: 16px;
+    text-align: center;
+}
+
+ion-card-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* === CORREÇÃO DO ALINHAMENTO DO DATETIME === */
+ion-item {
+    --background: rgba(30, 41, 59, 0.7);
+    --border-radius: 14px;
+    margin: 14px 0;
+    --padding-start: 16px;
+    --inner-padding-end: 16px;
+    --inner-border-width: 0;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    min-height: 56px;
+}
+
+/* Força o label flutuante a não sobrepor o datetime */
+ion-label[position="floating"] {
+    transform: translateY(-12px) scale(0.85) !important;
+    transform-origin: left top;
+    color: #a5b4fc !important;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+    padding-left: 4px;
+    padding-right: 4px;
+    background: linear-gradient(180deg, transparent 50%, rgba(30, 41, 59, 0.7) 50%);
+    z-index: 1;
+}
+
+/* Garante que o datetime fique abaixo do label */
+ion-datetime {
+    --color: #e0e7ff;
+    --placeholder-color: #94a3b8;
+    font-weight: 500;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 100%;
+    margin-top: 8px;
+}
+
+/* Remove qualquer sobreposição interna */
+ion-item::part(native) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Botão */
+ion-button {
+    margin: 18px 0 10px;
+    --border-radius: 14px;
+    --background: linear-gradient(45deg, #6366f1, #8b5cf6);
+    --color: white;
+    --box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+    text-transform: none;
+    font-weight: 600;
+    height: 50px;
+    font-size: 1.05rem;
+    letter-spacing: 0.6px;
+}
+
+ion-button:hover {
+    --background: linear-gradient(45deg, #4f46e5, #7c3aed);
+    --box-shadow: 0 8px 20px rgba(124, 58, 237, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Lista */
+ion-list {
+    margin: 18px;
+    background: transparent;
+    padding: 0 4px;
+}
+
+ion-item {
+    --background: linear-gradient(135deg, #1e293b, #312e81);
+    --border-radius: 16px;
+    margin-bottom: 16px;
+    box-shadow: 
+      0 6px 18px rgba(0, 0, 0, 0.3),
+      0 0 15px rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+ion-item:hover {
+    transform: translateX(4px) scale(1.02);
+    box-shadow: 
+      0 10px 25px rgba(0, 0, 0, 0.4),
+      0 0 25px rgba(139, 92, 246, 0.35);
+}
+
+ion-item ion-label h2 {
+    font-size: 1.3rem;
+    color: #c7d2fe;
+    font-weight: 700;
+    margin: 8px 0 6px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+ion-item ion-label p {
+    margin: 5px 0;
+    color: #93c5fd;
+    font-weight: 500;
+    font-size: 0.98rem;
+    opacity: 0.9;
+}
+
+/* Sem dados */
+ion-text[color="medium"] p {
+    text-align: center;
+    font-size: 1.15rem;
+    color: #94a3b8;
+    background: rgba(30, 41, 59, 0.6);
+    padding: 28px 20px;
+    border-radius: 18px;
+    margin: 32px 18px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    border: 1px dashed rgba(139, 92, 246, 0.3);
+    backdrop-filter: blur(6px);
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    ion-card, ion-list {
+      margin: 12px;
+    }
+}
+
+/* Animação */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+ion-content::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}

@@ -1,0 +1,63 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Dashboard</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Filtro de Data -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Filtrar por data</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Selecione a data</ion-label>
+        <ion-datetime display-format="YYYY-MM-DD" [(ngModel)]="dataSelecionada"></ion-datetime>
+      </ion-item>
+      <ion-button expand="block" color="primary" (click)="buscarPorData()">
+        Buscar dados
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Gráficos -->
+  <ion-card *ngIf="dados.length > 0">
+    <ion-card-header>
+      <ion-card-title>Gráfico - PH</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #graficoPh></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="dados.length > 0">
+    <ion-card-header>
+      <ion-card-title>Gráfico - Turbidez</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #graficoTurbidez></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="dados.length > 0">
+    <ion-card-header>
+      <ion-card-title>Gráfico - Resíduos Sólidos (%)</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #graficoResiduos></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ng-template #semDados>
+    <ion-text color="medium">
+      <p class="ion-text-center">Nenhum dado disponível para esta data.</p>
+    </ion-text>
+  </ng-template>
+</ion-content>
