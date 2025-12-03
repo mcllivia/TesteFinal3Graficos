@@ -1,27 +1,21 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      <ion-icon name="water-outline"></ion-icon>
-     HidroClean
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 <ion-content [fullscreen]="true">
-  <!-- <ion-header collapse="condense">
+  
+  <ion-header>
     <ion-toolbar>
-      <div>teste</div>
-      <ion-title size="large">Dashboard</ion-title>
+      <ion-title>
+        <ion-icon name="water-outline"></ion-icon>
+        HidroClean
+      </ion-title>
     </ion-toolbar>
-  </ion-header> -->
+  </ion-header>
 
-  <!-- Filtro de Data -->
   <ion-card>
     <ion-card-header>
-     
+      
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <ion-label position="floating">Selecione a data</ion-label>
+        <ion-label position="floating"></ion-label>
         <ion-datetime display-format="YYYY-MM-DD" [(ngModel)]="dataSelecionada" presentation="date"></ion-datetime>
       </ion-item>
       <ion-button expand="block" color="primary" (click)="buscarPorData()">
@@ -32,14 +26,12 @@
 
   <ng-container *ngIf="dados.length > 0">
     
-    <!-- === PH CARD + GRAPH === -->
     <ion-card class="status-card" [class.active]="graficoVisivel === 'ph'" 
               (click)="alternarGrafico('ph')" [color]="getStatus('ph').cor">
       <ion-card-header>
         <ion-card-title>PH</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <!-- CORRIGIDO: Usando [ngClass] para aplicar a cor do texto -->
         <div class="status-value" [ngClass]="'cor-' + getStatus('ph').cor">
           {{ getStatus('ph').valor.toFixed(2) }}
         </div>
@@ -47,7 +39,6 @@
         <ion-icon name="analytics-outline"></ion-icon>
       </ion-card-content>
     </ion-card>
-    <!-- GRÁFICO PH: aparece imediatamente abaixo do cartão PH -->
     <ion-card *ngIf="graficoVisivel === 'ph'">
       <ion-card-header>
         <ion-card-title>Histórico - PH</ion-card-title>
@@ -57,14 +48,12 @@
       </ion-card-content>
     </ion-card>
 
-    <!-- === TURBIDEZ CARD + GRAPH === -->
     <ion-card class="status-card" [class.active]="graficoVisivel === 'turbidez'" 
               (click)="alternarGrafico('turbidez')" [color]="getStatus('turbidez').cor">
       <ion-card-header>
         <ion-card-title>Turbidez</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <!-- CORRIGIDO: Usando [ngClass] para aplicar a cor do texto -->
         <div class="status-value" [ngClass]="'cor-' + getStatus('turbidez').cor">
           {{ getStatus('turbidez').valor.toFixed(2) }}
         </div>
@@ -72,7 +61,6 @@
         <ion-icon name="analytics-outline"></ion-icon>
       </ion-card-content>
     </ion-card>
-    <!-- GRÁFICO TURBIDEZ: aparece imediatamente abaixo do cartão Turbidez -->
     <ion-card *ngIf="graficoVisivel === 'turbidez'">
       <ion-card-header>
         <ion-card-title>Histórico - Turbidez</ion-card-title>
@@ -82,14 +70,12 @@
       </ion-card-content>
     </ion-card>
 
-    <!-- === QUALIDADE CARD + GRAPH === -->
     <ion-card class="status-card" [class.active]="graficoVisivel === 'qualidade'" 
               (click)="alternarGrafico('qualidade')" [color]="getStatus('tds').cor">
       <ion-card-header>
         <ion-card-title>Qualidade da Água</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <!-- CORRIGIDO: Usando [ngClass] para aplicar a cor do texto -->
         <div class="status-value" [ngClass]="'cor-' + getStatus('tds').cor">
           {{ getStatus('tds').valor.toFixed(0) }}
         </div>
@@ -97,7 +83,6 @@
         <ion-icon name="analytics-outline"></ion-icon>
       </ion-card-content>
     </ion-card>
-    <!-- GRÁFICO QUALIDADE: aparece imediatamente abaixo do cartão Qualidade -->
     <ion-card *ngIf="graficoVisivel === 'qualidade'">
       <ion-card-header>
         <ion-card-title>Histórico - Qualidade da Água (TDS)</ion-card-title>
@@ -109,7 +94,6 @@
 
   </ng-container>
 
-  <!-- Mensagem Sem Dados -->
   <ng-container *ngIf="dados.length === 0">
     <ion-text color="medium">
       <p class="ion-text-center">Nenhum dado disponível para esta data ou em tempo real.</p>

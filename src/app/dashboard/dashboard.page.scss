@@ -287,4 +287,7 @@ ion-title ion-icon {
     margin-right: 8px;      /* Espaçamento entre ícone e texto */
     font-size: 1.3rem;      /* Ajusta o tamanho do ícone, se necessário */
   }
-  
+  ion-header {
+    margin-top: 60px !important;
+    
+  }
