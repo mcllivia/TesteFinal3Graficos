@@ -85,8 +85,8 @@ export class DashboardPage implements OnInit, OnDestroy, AfterViewInit {
         // Critério PH: Bom: 6,5–8,5 | Médio: 6,0–6,5 ou 8,5–9,0 | Ruim: < 6,0 ou > 9,0
         if (valor >= 6.5 && valor <= 8.5) { 
           return { valor, status: 'Execelente para consumo', cor: 'success' };
-        } else if ((valor >= 6.0 && valor < 6.5) || (valor > 8.5 && valor <= 9.0)) {
-          return { valor, status: 'Médio', cor: 'warning' };
+        } else if ((valor >= 6.0 && valor <= 6.4) || (valor >= 8.6 && valor <= 9.5)) {
+          return { valor, status: 'Razoável para consumo', cor: 'warning' };
         } else { // < 6.0 ou > 9.0
           return { valor, status: 'Inadequado para consumo', cor: 'danger' };
         }
