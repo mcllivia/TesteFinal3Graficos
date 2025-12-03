@@ -19,7 +19,7 @@
     <ion-card-content>
       <ion-item>
         <ion-label position="floating">Selecione a data</ion-label>
-        <ion-datetime display-format="YYYY-MM-DD" [(ngModel)]="dataSelecionada"></ion-datetime>
+        <ion-datetime display-format="YYYY-MM-DD" [(ngModel)]="dataSelecionada" presentation="date"></ion-datetime>
       </ion-item>
       <ion-button expand="block" color="primary" (click)="buscarPorData()">
         Buscar dados
@@ -27,37 +27,90 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Gráficos -->
-  <ion-card *ngIf="dados.length > 0">
-    <ion-card-header>
-      <ion-card-title>Gráfico - PH</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <canvas #graficoPh></canvas>
-    </ion-card-content>
-  </ion-card>
+  <ng-container *ngIf="dados.length > 0">
+    
+    <!-- === PH CARD + GRAPH === -->
+    <ion-card class="status-card" [class.active]="graficoVisivel === 'ph'" 
+              (click)="alternarGrafico('ph')" [color]="getStatus('ph').cor">
+      <ion-card-header>
+        <ion-card-title>PH</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <!-- CORRIGIDO: Usando [ngClass] para aplicar a cor do texto -->
+        <div class="status-value" [ngClass]="'cor-' + getStatus('ph').cor">
+          {{ getStatus('ph').valor.toFixed(2) }}
+        </div>
+        <p class="status-label">{{ getStatus('ph').status }}</p>
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-card-content>
+    </ion-card>
+    <!-- GRÁFICO PH: aparece imediatamente abaixo do cartão PH -->
+    <ion-card *ngIf="graficoVisivel === 'ph'">
+      <ion-card-header>
+        <ion-card-title>Histórico - PH</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #graficoPh></canvas>
+      </ion-card-content>
+    </ion-card>
 
-  <ion-card *ngIf="dados.length > 0">
-    <ion-card-header>
-      <ion-card-title>Gráfico - Turbidez</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <canvas #graficoTurbidez></canvas>
-    </ion-card-content>
-  </ion-card>
+    <!-- === TURBIDEZ CARD + GRAPH === -->
+    <ion-card class="status-card" [class.active]="graficoVisivel === 'turbidez'" 
+              (click)="alternarGrafico('turbidez')" [color]="getStatus('turbidez').cor">
+      <ion-card-header>
+        <ion-card-title>Turbidez</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <!-- CORRIGIDO: Usando [ngClass] para aplicar a cor do texto -->
+        <div class="status-value" [ngClass]="'cor-' + getStatus('turbidez').cor">
+          {{ getStatus('turbidez').valor.toFixed(2) }}
+        </div>
+        <p class="status-label">{{ getStatus('turbidez').status }}</p>
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-card-content>
+    </ion-card>
+    <!-- GRÁFICO TURBIDEZ: aparece imediatamente abaixo do cartão Turbidez -->
+    <ion-card *ngIf="graficoVisivel === 'turbidez'">
+      <ion-card-header>
+        <ion-card-title>Histórico - Turbidez</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #graficoTurbidez></canvas>
+      </ion-card-content>
+    </ion-card>
 
-  <ion-card *ngIf="dados.length > 0">
-    <ion-card-header>
-      <ion-card-title>Gráfico - Resíduos Sólidos (%)</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <canvas #graficoResiduos></canvas>
-    </ion-card-content>
-  </ion-card>
+    <!-- === QUALIDADE CARD + GRAPH === -->
+    <ion-card class="status-card" [class.active]="graficoVisivel === 'qualidade'" 
+              (click)="alternarGrafico('qualidade')" [color]="getStatus('tds').cor">
+      <ion-card-header>
+        <ion-card-title>Qualidade da Água</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <!-- CORRIGIDO: Usando [ngClass] para aplicar a cor do texto -->
+        <div class="status-value" [ngClass]="'cor-' + getStatus('tds').cor">
+          {{ getStatus('tds').valor.toFixed(0) }}
+        </div>
+        <p class="status-label">{{ getStatus('tds').status }}</p>
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-card-content>
+    </ion-card>
+    <!-- GRÁFICO QUALIDADE: aparece imediatamente abaixo do cartão Qualidade -->
+    <ion-card *ngIf="graficoVisivel === 'qualidade'">
+      <ion-card-header>
+        <ion-card-title>Histórico - Qualidade da Água (TDS)</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #graficoQualidade></canvas>
+      </ion-card-content>
+    </ion-card>
 
-  <ng-template #semDados>
+  </ng-container>
+
+  <!-- Mensagem Sem Dados -->
+  <ng-container *ngIf="dados.length === 0">
     <ion-text color="medium">
-      <p class="ion-text-center">Nenhum dado disponível para esta data.</p>
+      <p class="ion-text-center">Nenhum dado disponível para esta data ou em tempo real.</p>
     </ion-text>
-  </ng-template>
+  </ng-container>
+
 </ion-content>

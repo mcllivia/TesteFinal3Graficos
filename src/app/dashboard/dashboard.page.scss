@@ -5,6 +5,21 @@ ion-content {
     color: #e2e8f0;
 }
 
+/* Efeito de fundo */
+ion-content::before {
+    content: '';
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
 /* Cabeçalho */
 ion-header ion-toolbar {
     --background: #1e293b;
@@ -19,7 +34,7 @@ ion-title {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* Cartão de filtro */
+/* Cartão de filtro e gráficos */
 ion-card {
     margin: 18px;
     border-radius: 18px;
@@ -40,7 +55,8 @@ ion-card:hover {
       0 0 30px rgba(139, 92, 246, 0.25);
 }
 
-ion-card-header {
+/* Cabeçalho do card de filtro (Primeiro card) */
+ion-card:first-of-type ion-card-header {
     background: linear-gradient(90deg, #6366f1, #8b5cf6);
     padding: 16px;
     text-align: center;
@@ -53,7 +69,112 @@ ion-card-title {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-/* === CORREÇÃO DO ALINHAMENTO DO DATETIME === */
+/* Cabeçalhos dos cards de GRÁFICO (Estilo genérico) */
+ion-card:has(canvas) ion-card-header {
+    background: linear-gradient(90deg, #1e293b, #1e293b); /* Fundo discreto */
+    padding: 16px;
+    text-align: center;
+    border-bottom: 2px solid #6366f1;
+}
+
+/* Canvas dos gráficos */
+ion-card canvas {
+    width: 100% !important;
+    height: 300px !important;
+    display: block;
+}
+
+/* === ESTILOS PARA OS CARDS DE STATUS (EMPILHADOS) === */
+
+.status-card {
+    /* O estilo de card agora usa a largura total por padrão */
+    --background: var(--ion-color-base); 
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    padding: 0;
+    margin: 18px; /* Usa margem padrão do ion-card para espaçamento vertical */
+    border: 3px solid transparent; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); 
+    overflow: hidden;
+}
+
+/* Definição das cores DINÂMICAS do GRADIENTE para o CARD */
+.status-card[color="success"] { 
+    --ion-color-base: linear-gradient(135deg, #10b981, #34d399); /* Verde (Bom) */
+}
+.status-card[color="warning"] {
+    --ion-color-base: linear-gradient(135deg, #f59e0b, #fbbf24); /* Amarelo/Laranja (Médio/Atenção) */
+}
+.status-card[color="danger"] {
+    --ion-color-base: linear-gradient(135deg, #ef4444, #f87171); /* Vermelho (Ruim) */
+}
+
+/* Estado Ativo (quando o gráfico está aberto) */
+.status-card.active {
+    transform: scale(1.02); /* Escala ligeiramente para destaque */
+    border-color: white; 
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.status-card:hover {
+    transform: translateY(-4px); 
+}
+
+.status-card ion-card-header {
+    padding: 12px 8px 0;
+    background: none; 
+}
+
+.status-card ion-card-title {
+    font-size: 1rem;
+    color: #f0f9ff;
+    text-shadow: none;
+}
+
+.status-card ion-card-content {
+    padding: 0 8px 12px;
+}
+
+/* ESTILO DO TEXTO DO VALOR */
+.status-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1.1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: color 0.3s ease;
+}
+
+/* Definição das cores SOLTAS para o TEXTO do valor (usando classes) */
+.status-value.cor-success {
+    color: #34d399 !important; /* Verde */
+}
+
+.status-value.cor-warning {
+    color: #fbbf24 !important; /* Amarelo/Laranja */
+}
+
+.status-value.cor-danger {
+    color: #f87171 !important; /* Vermelho */
+}
+
+.status-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 4px;
+    color: #e5e7eb;
+}
+
+.status-card ion-icon {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    font-size: 1.2rem;
+    opacity: 0.6;
+    color: #f0f9ff;
+}
+
+/* === CORREÇÃO DO ALINHAMENTO DO DATETIME (Restante do CSS) === */
 ion-item {
     --background: rgba(30, 41, 59, 0.7);
     --border-radius: 14px;
@@ -69,134 +190,89 @@ ion-item {
     min-height: 56px;
 }
 
+/* Remove qualquer sobreposição interna */
+ion-item::part(native) {
+ padding-left: 0 !important;
+padding-right: 0 !important;
+}
+
 /* Força o label flutuante a não sobrepor o datetime */
 ion-label[position="floating"] {
-    transform: translateY(-12px) scale(0.85) !important;
-    transform-origin: left top;
-    color: #a5b4fc !important;
-    font-weight: 600 !important;
-    font-size: 0.85rem !important;
-    padding-left: 4px;
-    padding-right: 4px;
-    background: linear-gradient(180deg, transparent 50%, rgba(30, 41, 59, 0.7) 50%);
-    z-index: 1;
+ transform: translateY(-12px) scale(0.85) !important;
+ transform-origin: left top;
+ color: #a5b4fc !important;
+ font-weight: 600 !important;
+ font-size: 0.85rem !important;
+ padding-left: 4px;
+ padding-right: 4px;
+ background: linear-gradient(180deg, transparent 50%, rgba(30, 41, 59, 0.7) 50%);
+ z-index: 1;
 }
 
 /* Garante que o datetime fique abaixo do label */
 ion-datetime {
-    --color: #e0e7ff;
-    --placeholder-color: #94a3b8;
-    font-weight: 500;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    width: 100%;
-    margin-top: 8px;
-}
-
-/* Remove qualquer sobreposição interna */
-ion-item::part(native) {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+ --color: #e0e7ff;
+ --placeholder-color: #94a3b8;
+ font-weight: 500;
+ padding-top: 8px;
+ padding-bottom: 8px;
+ width: 100%;
+ margin-top: 8px;
 }
 
 /* Botão */
 ion-button {
-    margin: 18px 0 10px;
-    --border-radius: 14px;
-    --background: linear-gradient(45deg, #6366f1, #8b5cf6);
-    --color: white;
-    --box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
-    text-transform: none;
-    font-weight: 600;
-    height: 50px;
-    font-size: 1.05rem;
-    letter-spacing: 0.6px;
+ margin: 18px 0 10px;
+ --border-radius: 14px;
+ --background: linear-gradient(45deg, #6366f1, #8b5cf6);
+ --color: white;
+--box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+ text-transform: none;
+ font-weight: 600;
+ height: 50px;
+font-size: 1.05rem;
+ letter-spacing: 0.6px;
 }
 
 ion-button:hover {
-    --background: linear-gradient(45deg, #4f46e5, #7c3aed);
-    --box-shadow: 0 8px 20px rgba(124, 58, 237, 0.5);
-    transform: translateY(-2px);
-}
-
-/* Lista */
-ion-list {
-    margin: 18px;
-    background: transparent;
-    padding: 0 4px;
-}
-
-ion-item {
-    --background: linear-gradient(135deg, #1e293b, #312e81);
-    --border-radius: 16px;
-    margin-bottom: 16px;
-    box-shadow: 
-      0 6px 18px rgba(0, 0, 0, 0.3),
-      0 0 15px rgba(139, 92, 246, 0.2);
-    border: 1px solid rgba(139, 92, 246, 0.25);
-    --padding-start: 0;
-    --inner-padding-end: 0;
-    transition: all 0.3s ease;
-    animation: fadeInUp 0.5s ease-out forwards;
-}
-
-ion-item:hover {
-    transform: translateX(4px) scale(1.02);
-    box-shadow: 
-      0 10px 25px rgba(0, 0, 0, 0.4),
-      0 0 25px rgba(139, 92, 246, 0.35);
-}
-
-ion-item ion-label h2 {
-    font-size: 1.3rem;
-    color: #c7d2fe;
-    font-weight: 700;
-    margin: 8px 0 6px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-ion-item ion-label p {
-    margin: 5px 0;
-    color: #93c5fd;
-    font-weight: 500;
-    font-size: 0.98rem;
-    opacity: 0.9;
+ --background: linear-gradient(45deg, #4f46e5, #7c3aed);
+ --box-shadow: 0 8px 20px rgba(124, 58, 237, 0.5);
+ transform: translateY(-2px);
 }
 
 /* Sem dados */
 ion-text[color="medium"] p {
-    text-align: center;
-    font-size: 1.15rem;
-    color: #94a3b8;
-    background: rgba(30, 41, 59, 0.6);
-    padding: 28px 20px;
-    border-radius: 18px;
-    margin: 32px 18px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-    border: 1px dashed rgba(139, 92, 246, 0.3);
-    backdrop-filter: blur(6px);
+ text-align: center;
+ font-size: 1.15rem;
+ color: #94a3b8;
+ background: rgba(30, 41, 59, 0.6);
+padding: 28px 20px;
+border-radius: 18px;
+ margin: 32px 18px;
+ box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+border: 1px dashed rgba(139, 92, 246, 0.3);
+backdrop-filter: blur(6px);
 }
 
 /* Responsividade */
 @media (max-width: 480px) {
-    ion-card, ion-list {
-      margin: 12px;
-    }
+ ion-card {
+ margin: 12px;
+ }
+ 
+ ion-card canvas {
+height: 250px !important;
+}
 }
 
 /* Animação */
 @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(25px); }
-    to { opacity: 1; transform: translateY(0); }
+ from { 
+opacity: 0; 
+transform: translateY(25px); 
+ }
+to { 
+ opacity: 1; 
+ transform: translateY(0); 
 }
-
-ion-content::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: 
-      radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: -1;
 }
