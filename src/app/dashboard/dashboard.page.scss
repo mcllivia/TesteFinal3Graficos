@@ -129,16 +129,19 @@ ion-card canvas {
 .status-card ion-card-header {
     padding: 12px 8px 0;
     background: none; 
+    text-align: center; /* CENTRALIZA O TÍTULO DO CARD */
 }
 
 .status-card ion-card-title {
     font-size: 1rem;
     color: #f0f9ff;
     text-shadow: none;
+    text-align: center; /* CENTRALIZA O TÍTULO */
 }
 
 .status-card ion-card-content {
     padding: 0 8px 12px;
+    text-align: center; /* CENTRALIZA TODO O CONTEÚDO DO CARD */
 }
 
 /* ESTILO DO TEXTO DO VALOR */
@@ -148,6 +151,7 @@ ion-card canvas {
     line-height: 1.1;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     transition: color 0.3s ease;
+    text-align: center; /* CENTRALIZA O VALOR */
 }
 
 /* Definição das cores SOLTAS para o TEXTO do valor (usando classes) */
@@ -168,6 +172,7 @@ ion-card canvas {
     font-weight: 600;
     margin-top: 4px;
     color: #e5e7eb;
+    text-align: center; /* CENTRALIZA O STATUS */
 }
 
 .status-card ion-icon {

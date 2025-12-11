@@ -11,7 +11,7 @@ Chart.register(...registerables);
 })
 export class DashboardPage implements OnInit, OnDestroy, AfterViewInit {
 
-  @ViewChild('graficoPh', { static: false }) graficoPhCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('graficoVolume', { static: false }) graficoVolumeCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('graficoTurbidez', { static: false }) graficoTurbidezCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('graficoQualidade', { static: false }) graficoQualidadeCanvas!: ElementRef<HTMLCanvasElement>;
 
@@ -20,12 +20,12 @@ export class DashboardPage implements OnInit, OnDestroy, AfterViewInit {
   dataSelecionada: string = '';
   collection: string = 'JuChecchio';
   intervalo: any;
-  graficoPh: any;
+  graficoVolume: any;
   graficoTurbidez: any;
   graficoQualidade: any;
 
-  // Variável para controlar qual gráfico está visível (ph, turbidez, qualidade ou null)
-  graficoVisivel: 'ph' | 'turbidez' | 'qualidade' | null = null;
+  // Variável para controlar qual gráfico está visível (volume, turbidez, qualidade ou null)
+  graficoVisivel: 'volume' | 'turbidez' | 'qualidade' | null = null;
 
   constructor(private apiService: Api) {}
 
@@ -72,7 +72,7 @@ export class DashboardPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // MÉTODO PRINCIPAL: Calcula cor e status com base no parâmetro
-  getStatus(parametro: 'ph' | 'turbidez' | 'tds'): { valor: number, status: string, cor: 'success' | 'warning' | 'danger' } {
+  getStatus(parametro: 'volume' | 'turbidez' | 'tds'): { valor: number, status: string, cor: 'success' | 'warning' | 'danger' } {
     const valor = Number(this.dadoAtual[parametro]) || 0;
     
     // Alerta no console se houver dados mas o valor for 0, indicando provável erro na chave da API
@@ -81,14 +81,14 @@ export class DashboardPage implements OnInit, OnDestroy, AfterViewInit {
     }
 
     switch (parametro) {
-      case 'ph':
-        // Critério PH: Bom: 6,5–8,5 | Médio: 6,0–6,5 ou 8,5–9,0 | Ruim: < 6,0 ou > 9,0
-        if (valor >= 6.5 && valor <= 8.5) { 
-          return { valor, status: 'Execelente para consumo', cor: 'success' };
-        } else if ((valor >= 6.0 && valor <= 6.4) || (valor >= 8.6 && valor <= 9.5)) {
-          return { valor, status: 'Razoável para consumo', cor: 'warning' };
-        } else { // < 6.0 ou > 9.0
-          return { valor, status: 'Inadequado para consumo', cor: 'danger' };
+      case 'volume':
+        // Critério Volume em centímetros: <= 2 = Baixo (Vermelho) | 2-5 = Médio (Amarelo) | > 5 = Alto (Verde)
+        if (valor <= 2) { 
+          return { valor, status: 'Nível Baixo', cor: 'danger' };
+        } else if (valor > 2 && valor <= 5) { 
+          return { valor, status: 'Nível Médio', cor: 'warning' };
+        } else { // > 5
+          return { valor, status: 'Nível Alto', cor: 'success' };
         }
       
       case 'turbidez':
@@ -120,7 +120,7 @@ export class DashboardPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   // MÉTODO: Alterna a visibilidade do gráfico (mantido)
-  alternarGrafico(grafico: 'ph' | 'turbidez' | 'qualidade'): void {
+  alternarGrafico(grafico: 'volume' | 'turbidez' | 'qualidade'): void {
     if (this.graficoVisivel === grafico) {
       this.graficoVisivel = null;
     } else {
@@ -135,26 +135,26 @@ export class DashboardPage implements OnInit, OnDestroy, AfterViewInit {
 
   renderizarGraficos(): void {
     setTimeout(() => {
-      this.atualizarGraficoPh();
+      this.atualizarGraficoVolume();
       this.atualizarGraficoTurbidez();
       this.atualizarGraficoQualidade();
     }, 300);
   }
 
   destruirGraficos(): void {
-    [this.graficoPh, this.graficoTurbidez, this.graficoQualidade].forEach(g => g && g.destroy());
+    [this.graficoVolume, this.graficoTurbidez, this.graficoQualidade].forEach(g => g && g.destroy());
   }
 
-  atualizarGraficoPh(): void {
-      if (!this.graficoPhCanvas) return;
-      if (this.graficoPh) this.graficoPh.destroy();
+  atualizarGraficoVolume(): void {
+      if (!this.graficoVolumeCanvas) return;
+      if (this.graficoVolume) this.graficoVolume.destroy();
 
       const labels = this.dados.map((d, i) => d.timestamp || `Leitura ${i + 1}`);
-      const ph = this.dados.map(d => Number(d.ph) || 0);
+      const volume = this.dados.map(d => Number(d.volume) || 0);
 
-      this.graficoPh = new Chart(this.graficoPhCanvas.nativeElement, {
+      this.graficoVolume = new Chart(this.graficoVolumeCanvas.nativeElement, {
         type: 'line',
-        data: { labels, datasets: [{ label: 'PH', data: ph, borderColor: '#60a5fa', backgroundColor: 'rgba(96,165,250,0.2)', borderWidth: 2, tension: 0.3, pointRadius: 0 }] },
+        data: { labels, datasets: [{ label: 'Volume (cm)', data: volume, borderColor: '#60a5fa', backgroundColor: 'rgba(96,165,250,0.2)', borderWidth: 2, tension: 0.3, pointRadius: 0 }] },
         options: this.getChartOptions()
       });
     }

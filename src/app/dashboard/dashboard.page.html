@@ -26,28 +26,30 @@
 
   <ng-container *ngIf="dados.length > 0">
     
-    <ion-card class="status-card" [class.active]="graficoVisivel === 'ph'" 
-              (click)="alternarGrafico('ph')" [color]="getStatus('ph').cor">
+    <!-- CARD VOLUME DE ÁGUA -->
+    <ion-card class="status-card" [class.active]="graficoVisivel === 'volume'" 
+              (click)="alternarGrafico('volume')" [color]="getStatus('volume').cor">
       <ion-card-header>
-        <ion-card-title>PH</ion-card-title>
+        <ion-card-title>Volume de Água </ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <div class="status-value" [ngClass]="'cor-' + getStatus('ph').cor">
-          {{ getStatus('ph').valor.toFixed(2) }}
+        <div class="status-value" [ngClass]="'cor-' + getStatus('volume').cor">
+          {{ getStatus('volume').valor.toFixed(1) }}  
         </div>
-        <p class="status-label">{{ getStatus('ph').status }}</p>
+        <p class="status-label">{{ getStatus('volume').status }}</p>
         <ion-icon name="analytics-outline"></ion-icon>
       </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="graficoVisivel === 'ph'">
+    <ion-card *ngIf="graficoVisivel === 'volume'">
       <ion-card-header>
-        <ion-card-title>Histórico - PH</ion-card-title>
+        <ion-card-title>Histórico - Volume de Água (CM)</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <canvas #graficoPh></canvas>
+        <canvas #graficoVolume></canvas>
       </ion-card-content>
     </ion-card>
 
+    <!-- CARD TURBIDEZ -->
     <ion-card class="status-card" [class.active]="graficoVisivel === 'turbidez'" 
               (click)="alternarGrafico('turbidez')" [color]="getStatus('turbidez').cor">
       <ion-card-header>
@@ -70,6 +72,7 @@
       </ion-card-content>
     </ion-card>
 
+    <!-- CARD QUALIDADE DA ÁGUA -->
     <ion-card class="status-card" [class.active]="graficoVisivel === 'qualidade'" 
               (click)="alternarGrafico('qualidade')" [color]="getStatus('tds').cor">
       <ion-card-header>
